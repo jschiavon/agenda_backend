@@ -1,6 +1,8 @@
 from agenda_backend.database import db
 from marshmallow import Schema, fields
 
+from sqlalchemy.sql import func
+
 
 class Cliente(db.Model):
 

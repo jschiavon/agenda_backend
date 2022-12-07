@@ -11,7 +11,7 @@ class Tavolo(db.Model):
     valido_al = db.Column(db.Date, nullable=False)
     Tavolo_Numero = db.Column(db.Integer, nullable=False)
     Tavolo_Posti = db.Column(db.Integer, nullable=False)
-    Sala = db.Column(db.String, nullable=True)
+    Sala = db.Column(db.String, nullable=False)
     Interno_Esterno = db.Column(db.Boolean, nullable=True)        # <------- eventualmente si può fare come stringa si/no
     Note = db.Column(db.String, nullable=True)
 
