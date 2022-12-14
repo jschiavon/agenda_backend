@@ -1,8 +1,6 @@
 from agenda_backend.database import db
 from marshmallow import Schema, fields
 
-from sqlalchemy.sql import func
-
 
 class Cliente(db.Model):
 
@@ -19,7 +17,7 @@ class Cliente(db.Model):
     Data_Creazione = db.Column(db.DateTime, nullable=False)
 
 
-class ClienteSchema(Schema):
+class __ClienteSchema(Schema):
     id = fields.Int(dump_only=True)
     id_Ristorante = fields.Int()
     Nome = fields.Str()
@@ -31,5 +29,5 @@ class ClienteSchema(Schema):
     Data_Creazione = fields.DateTime()
 
 
-cliente_schema = ClienteSchema()
-clienti_schema = ClienteSchema(many=True)
+cliente_schema = __ClienteSchema()
+clienti_schema = __ClienteSchema(many=True)

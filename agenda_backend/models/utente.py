@@ -15,7 +15,7 @@ class Utente(db.Model):
     Note = db.Column(db.String, nullable=True)
 
 
-class UtenteSchema(Schema):
+class __UtenteSchema(Schema):
     id = fields.Int(dump_only=True)
     id_Ristorante = fields.Int()
     Username = fields.Str()
@@ -25,4 +25,4 @@ class UtenteSchema(Schema):
     Note = fields.Str()
 
 
-utente_schema = UtenteSchema()
+utente_schema = __UtenteSchema()

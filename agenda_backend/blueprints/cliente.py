@@ -38,27 +38,44 @@ def get_clients_list(ristoid):
         return jsonify({'error': str(e)}), 400
 
 
-@cliente.route('/clients/create/<ristoid>', methods=['GET', 'POST'])
-def add_client(ristoid):
+@cliente.route('/clients/add/', methods=['POST'])
+def add_client():
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.get_json(force=True)
         if not data:
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            client = Cliente(
-                id_Ristorante = ristoid,
-                Nome = nome,
-                Cell = cell,
-                Email = data['email'] if 'email' in data.keys() else None,
-                Compleanno = data['compleanno'] if 'compleanno' in data.keys() else None,
-                Note = data['note'] if 'note' in data.keys() else None,
-                id_User_Creazione = id_User_Creazione,
-                Data_Creazione = datetime.now()
-            )
+            ristoid = data['id_Ristorante']
         except KeyError:
-            return jsonify({'error': 'Must provide complete data'}), 400
+            return jsonify({'error': 'Must provide id_Ristorante'}), 400
 
+        try:
+            nome = data['Nome']
+        except KeyError:
+            return jsonify({'error': 'Must provide Nome'}), 400
+
+        try:
+            cell = data['Cell']
+        except KeyError:
+            return jsonify({'error': 'Must provide Cell'}), 400
+
+        try:
+            id_user = data['id_User']
+        except KeyError:
+            return jsonify({'error': 'Must provide id_User'}), 400
+
+        client = Cliente(
+            id_Ristorante = ristoId,
+            Nome = nome,
+            Cell = cell,
+            Email = data['Email'] if 'Email' in data.keys() else None,
+            Compleanno = data['Compleanno'] if 'Compleanno' in data.keys() else None,
+            Note = data['Note'] if 'Note' in data.keys() else None,
+            id_User_Creazione = id_user,
+            Data_Creazione = datetime.now()
+        )
+        
         db.session.add(client)
         db.session.commit()
         
@@ -67,8 +84,8 @@ def add_client(ristoid):
     return jsonify({"error": "Must provide complete data"}), 400
 
 
-@cliente.route('/clients/<id>/edit/', methods=['GET', 'POST'])
-def edit_client():
+@cliente.route('/clients/edit/<id>/', methods=['POST'])
+def edit_client(id):
     try:
         client = db.session.execute(db.select(Cliente).filter_by(id=id)).scalar_one()
     except NoResultFound:
@@ -80,32 +97,15 @@ def edit_client():
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            id_Ristorante = data['ristoid']
+            client.id_Ristorante = data['id_Ristorante']
+            client.Nome = data['Nome']
+            client.Cell = data['Cell']
+            client.Email = data['Email'] if 'Email' in data.keys() else None,
+            client.Compleanno = data['Compleanno'] if 'Compleanno' in data.keys() else None,
+            client.Note = data['Note'] if 'Note' in data.keys() else None,
+            client.id_User_Creazione = data['id_User']
         except KeyError:
-            return jsonify({"error": "No ristoid provided"}), 400
-        
-        try:
-            nome = data['nome']
-        except KeyError:
-            return jsonify({"error": "No nome provided"}), 400
-        
-        try:
-            cell = data['cell']
-        except KeyError:
-            return jsonify({"error": "No cell provided"}), 400
-        
-        try:
-            id_User_Creazione = data['user_id_creazione']
-        except KeyError:
-            return jsonify({'error': 'No user_id_creazione provided'}), 400
-
-        client.id_Ristorante = id_Ristorante
-        client.Nome = nome
-        client.Cell = cell
-        client.Email = data['email'] if 'email' in data.keys() else None,
-        client.Compleanno = data['compleanno'] if 'compleanno' in data.keys() else None,
-        client.Note = data['note'] if 'note' in data.keys() else None,
-        client.id_User_Creazione = id_User_Creazione
+            return jsonify({'error': 'Must provide complete data'}), 400
 
         db.session.add(client)
         db.session.commit()
@@ -113,3 +113,16 @@ def edit_client():
         return jsonify(cliente_schema.dump(client))
 
     return jsonify({"error": "Must provide complete data"}), 400
+
+
+@cliente.route('/clients/delete/<id>', methods=['DELETE'])
+def delete_cliente(id):
+    try:
+        client = db.session.execute(db.select(Cliente).filter_by(id=id)).scalar_one()
+    except NoResultFound:
+        return jsonify({'error': "No clients corresponding to this id"}), 401
+
+    db.session.delete(client)
+    db.session.commit()
+
+    return jsonify({'message':'Client {id} deleted'}), 200

@@ -11,22 +11,22 @@ class Tavolo(db.Model):
     valido_al = db.Column(db.Date, nullable=False)
     Tavolo_Numero = db.Column(db.Integer, nullable=False)
     Tavolo_Posti = db.Column(db.Integer, nullable=False)
-    Sala = db.Column(db.String, nullable=False)
+    Sala = db.Column(db.Integer, nullable=False)
     Interno_Esterno = db.Column(db.Boolean, nullable=True)        # <------- eventualmente si può fare come stringa si/no
     Note = db.Column(db.String, nullable=True)
 
 
-class TavoloSchema(Schema):
+class __TavoloSchema(Schema):
     id = fields.Int(dump_only=True)
     id_Ristorante = fields.Int()
     valido_dal = fields.Date()
     valido_al = fields.Date()
     Tavolo_Numero = fields.Int()
     Tavolo_Posti = fields.Int()
-    Sala = fields.Str()
+    Sala = fields.Int()
     Interno_Esterno = fields.Bool()
     Note = fields.Str()
     
 
-tavolo_schema = TavoloSchema()
-tavoli_schema = TavoloSchema(many=True)
+tavolo_schema = __TavoloSchema()
+tavoli_schema = __TavoloSchema(many=True)
