@@ -1,5 +1,5 @@
 myuser = 'SA'
-mypwd = 'Abcd1234'
+mypwd = 'Abcd_1234'
 myhost = '217.61.61.49'
 myport = '1433'
 mydb = 'PTR'
