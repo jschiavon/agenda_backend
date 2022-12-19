@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import NoResultFound
 
@@ -79,7 +81,7 @@ def add_reservation():
             Numero_Posti = Numero_Posti,
             id_Cliente = id_Cliente,
             Note = data['Note'] if 'Note' in data.keys() else None,
-            id_User = data['id_Utente'],
+            id_User = id_user,
             DataOra_Prenotazione = datetime.now(),
             Flag_Disdetta = data['Flag_disdetta'] if 'Flag_disdetta' in data.keys() else False
         )
