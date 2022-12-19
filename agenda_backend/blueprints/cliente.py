@@ -66,7 +66,7 @@ def add_client():
             return jsonify({'error': 'Must provide id_User'}), 400
 
         client = Cliente(
-            id_Ristorante = ristoId,
+            id_Ristorante = ristoid,
             Nome = nome,
             Cell = cell,
             Email = data['Email'] if 'Email' in data.keys() else None,
