@@ -58,7 +58,7 @@ def add_reservation():
             return jsonify({'error': 'Must provide Tavolo'}), 400
 
         try:
-            Tavolo = data['Numero_Posti']
+            Numero_Posti = data['Numero_Posti']
         except KeyError:
             return jsonify({'error': 'Must provide Numero_Posti'}), 400
         
@@ -107,14 +107,14 @@ def edit_reservation(id):
         
         try:
             reservation.id_Ristorante = ristoid
-            reservation.DataOra = data['dataOra']
-            reservation.Tavolo = data['tavolo']
-            reservation.Numero_Posti = data['posti']
-            reservation.id_Cliente = data['clienteId']
-            reservation.Note = data['note'] if 'note' in data.keys() else None
-            reservation.id_User = data['utenteId']
+            reservation.DataOra = data['DataOra']
+            reservation.Tavolo = data['Tavolo']
+            reservation.Numero_Posti = data['Numero_Posti']
+            reservation.id_Cliente = data['id_Cliente']
+            reservation.Note = data['Note'] if 'Note' in data.keys() else None
+            reservation.id_User = data['id_User']
             reservation.DataOra_Prenotazione = datetime.now()
-            reservation.disdetta = data['disdetta'] if 'disdetta' in data.keys() else False
+            reservation.disdetta = data['Flag_disdetta'] if 'Flag_disdetta' in data.keys() else False
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
 
