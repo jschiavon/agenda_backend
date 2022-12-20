@@ -66,7 +66,7 @@ def change_password(id):
     except NoResultFound:
         return jsonify({'error': "No user corresponding to this id"}), 401
     
-    user.Password = new_password
+    user.Password = generate_password_hash(new_password, 12).decode('latin')
 
     db.session.add(user)
     db.session.commit()
