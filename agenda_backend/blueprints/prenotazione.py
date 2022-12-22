@@ -103,7 +103,7 @@ def edit_reservation(id):
         return jsonify({'error': "No reservation corresponding to this id"}), 401
 
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.get_json(force=True)
         if not data:
             return jsonify({"error": "Must provide complete data"}), 400
         

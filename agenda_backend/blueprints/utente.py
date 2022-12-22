@@ -52,7 +52,7 @@ def login():
 
 @utente.route('/user/password/<id>', methods=['POST'])
 def change_password(id):
-    data = request.get_json()
+    data = request.get_json(force=True)
     if not data:
         return jsonify({'error': 'Must provide the new passowrd'}), 400
     
