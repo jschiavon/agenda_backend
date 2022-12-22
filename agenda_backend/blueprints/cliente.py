@@ -107,7 +107,6 @@ def edit_client(id):
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
 
-        db.session.add(client)
         db.session.commit()
 
         return jsonify(cliente_schema.dump(client))

@@ -117,7 +117,6 @@ def edit_tavolo(id):
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
         
-        db.session.add(table)
         db.session.commit()
         
         return jsonify(tavolo_schema.dump(table))

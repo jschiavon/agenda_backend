@@ -120,7 +120,6 @@ def edit_reservation(id):
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
 
-        db.session.add(reservation)
         db.session.commit()
 
         return jsonify(prenotazione_schema.dump(reservation))

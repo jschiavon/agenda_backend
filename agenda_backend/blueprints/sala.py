@@ -95,7 +95,6 @@ def edit_room(id):
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
 
-        db.session.add(room)
         db.session.commit()
 
         return jsonify(sala_schema.dump(room))

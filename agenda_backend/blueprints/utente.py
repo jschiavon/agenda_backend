@@ -68,7 +68,6 @@ def change_password(id):
     
     user.Password = generate_password_hash(new_password, 12).decode('latin')
 
-    db.session.add(user)
     db.session.commit()
 
     return jsonify(utente_schema.dump(user))

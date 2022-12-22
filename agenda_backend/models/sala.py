@@ -22,7 +22,7 @@ class __SalaSchema(Schema):
     numero = fields.Int()
     valido_dal = fields.Date()
     valido_al = fields.Date()
-    colore = fields.Str(10)
+    colore = fields.Str()
     Interno_Esterno = fields.Bool()
     Note = fields.Str()
     
