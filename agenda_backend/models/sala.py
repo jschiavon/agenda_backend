@@ -12,7 +12,7 @@ class Sala(db.Model):
     valido_dal = db.Column(db.Date, nullable=False)
     valido_al = db.Column(db.Date, nullable=False)
     colore = db.Column(db.String(10), nullable=False)
-    Interno_Esterno = db.Column(db.Bool, nullable=True)
+    Interno_Esterno = db.Column(db.Boolean, nullable=True)
     Note = db.Column(db.String, nullable=True)
     
 
@@ -23,7 +23,7 @@ class __SalaSchema(Schema):
     valido_dal = fields.Date()
     valido_al = fields.Date()
     colore = fields.Str(10)
-    Interno_Esterno = fields.bool()
+    Interno_Esterno = fields.Bool()
     Note = fields.Str()
     
 
