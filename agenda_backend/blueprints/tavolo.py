@@ -92,7 +92,7 @@ def add_tavolo():
     return jsonify({"error": "Must provide complete data"}), 400
 
 
-@tavolo.route('/tables/edit/<id>', methods=['POST'])
+@tavolo.route('/tables/edit/<id>/', methods=['POST'])
 def edit_tavolo(id):
     try:
         table = db.session.execute(db.select(Tavolo).filter_by(id=id)).scalar_one()
