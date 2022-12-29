@@ -18,7 +18,7 @@ class Utente(db.Model):
     Telefono = db.Column(db.String(13), nullable=False)
     Email = db.Column(db.String, nullable=False)
     Locale = db.Column(db.String(2), nullable=False)
-    Note =  = db.Column(db.String, nullable=True)
+    Note = db.Column(db.String, nullable=True)
 
 
 class __UtenteSchema(Schema):
