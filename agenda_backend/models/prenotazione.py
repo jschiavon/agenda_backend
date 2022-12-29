@@ -13,7 +13,6 @@ class Prenotazione(db.Model):
     Numero_Posti = db.Column(db.Integer, nullable=False)
     id_Cliente = db.Column(db.Integer, nullable=False)
     Note = db.Column(db.String, nullable=True)
-    id_User = db.Column(db.Integer, nullable=False)
     DataOra_Prenotazione = db.Column(db.DateTime, nullable=False)
     Flag_Disdetta = db.Column(db.Boolean, nullable=True)        #<------- eventualmente si può fare come stringa si/no
 
@@ -26,7 +25,6 @@ class __PrenotazioneSchema(Schema):
     Numero_Posti = fields.Int()
     id_Cliente = fields.Int()
     Note = fields.Str()
-    id_User = fields.Int()
     DataOra_Prenotazione = fields.DateTime()
     Flag_Disdetta = fields.Bool()
 

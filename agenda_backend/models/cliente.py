@@ -9,11 +9,10 @@ class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_Ristorante = db.Column(db.Integer, nullable=False)
     Nome = db.Column(db.String, nullable=False)
-    Cell = db.Column(db.String, nullable=False)
+    Cell = db.Column(db.String(13), nullable=False)
     Email = db.Column(db.String, nullable=True)
     Compleanno = db.Column(db.Date, nullable=True)
     Note = db.Column(db.String, nullable=True)
-    id_User_Creazione = db.Column(db.Integer, nullable=False)
     Data_Creazione = db.Column(db.DateTime, nullable=False)
 
 
@@ -25,7 +24,6 @@ class __ClienteSchema(Schema):
     Email = fields.Str()
     Compleanno = fields.Date()
     Note = fields.Str()
-    id_User_Creazione = fields.Int()
     Data_Creazione = fields.DateTime()
 
 

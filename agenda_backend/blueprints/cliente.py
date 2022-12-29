@@ -60,11 +60,6 @@ def add_client():
         except KeyError:
             return jsonify({'error': 'Must provide Cell'}), 400
 
-        try:
-            id_user = data['id_User']
-        except KeyError:
-            return jsonify({'error': 'Must provide id_User'}), 400
-
         client = Cliente(
             id_Ristorante = ristoid,
             Nome = nome,
@@ -72,7 +67,6 @@ def add_client():
             Email = data['Email'] if 'Email' in data.keys() else None,
             Compleanno = data['Compleanno'] if 'Compleanno' in data.keys() else None,
             Note = data['Note'] if 'Note' in data.keys() else None,
-            id_User_Creazione = id_user,
             Data_Creazione = datetime.now()
         )
         
@@ -103,7 +97,6 @@ def edit_client(id):
             client.Email = data['Email'] if 'Email' in data.keys() else None,
             client.Compleanno = data['Compleanno'] if 'Compleanno' in data.keys() else None,
             client.Note = data['Note'] if 'Note' in data.keys() else None,
-            client.id_User_Creazione = data['id_User']
         except KeyError:
             return jsonify({'error': 'Must provide complete data'}), 400
 

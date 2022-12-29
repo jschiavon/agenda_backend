@@ -36,7 +36,6 @@ def get_reservation_list(ristoid):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-
 @prenotazione.route('/reservations/add/', methods=['POST'])
 def add_reservation():
     if request.method == 'POST':
@@ -69,11 +68,6 @@ def add_reservation():
         except KeyError:
             return jsonify({'error': 'Must provide Id_Cliente'}), 400
 
-        try:
-            id_user = data['id_User']
-        except KeyError:
-            return jsonify({'error': 'Must provide id_User'}), 400
-
         reservation = Prenotazione(
             id_Ristorante = ristoid,
             DataOra = DataOra,
@@ -81,7 +75,6 @@ def add_reservation():
             Numero_Posti = Numero_Posti,
             id_Cliente = id_Cliente,
             Note = data['Note'] if 'Note' in data.keys() else None,
-            id_User = id_user,
             DataOra_Prenotazione = datetime.now(),
             Flag_Disdetta = data['Flag_disdetta'] if 'Flag_disdetta' in data.keys() else False
         )
@@ -92,8 +85,6 @@ def add_reservation():
         return jsonify(prenotazione_schema.dump(reservation))
     
     return jsonify({"error": "Must provide complete data"}), 400
-
-
 
 @prenotazione.route('/reservations/edit/<id>/', methods=['POST'])
 def edit_reservation(id):
@@ -114,7 +105,6 @@ def edit_reservation(id):
             reservation.Numero_Posti = data['Numero_Posti']
             reservation.id_Cliente = data['id_Cliente']
             reservation.Note = data['Note'] if 'Note' in data.keys() else None
-            reservation.id_User = data['id_User']
             reservation.DataOra_Prenotazione = datetime.now()
             reservation.disdetta = data['Flag_disdetta'] if 'Flag_disdetta' in data.keys() else False
         except KeyError:
@@ -125,7 +115,6 @@ def edit_reservation(id):
         return jsonify(prenotazione_schema.dump(reservation))
 
     return jsonify({"error": "Must provide complete data"}), 400
-
 
 @prenotazione.route('/reservations/delete/<id>', methods=['DELETE'])
 def delete_reservation(id):
