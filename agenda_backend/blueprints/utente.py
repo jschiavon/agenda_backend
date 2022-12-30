@@ -234,11 +234,22 @@ def edit_user(id):
     return jsonify({"error": "Must provide complete data"}), 400
 
 
-@utente.route('/user/check/<username>/')
-def check_username(username):
-    try:
-        user = db.session.execute(db.select(Utente).filter_by(id=id)).scalar_one()
-    except NoResultFound:
-        return jsonify({'message': "No users with this username"})
-    finally:
-        return jsonify({'error': "Username already taken"}), 400
+@utente.route('/user/check/', methods='POST')
+def check_username():
+
+    if request.method == 'POST':
+        data = request.get_json(force=True)
+        if not data:
+            return jsonify({"error": "Must provide complete data"}), 400
+
+        try:
+            username = data['username']
+        except KeyError:
+            return jsonify({'error': 'Must provide username'}), 400
+        
+        try:
+            user = db.session.execute(db.select(Utente).filter_by(username=username)).scalar_one()
+        except NoResultFound:
+            return jsonify({'message': "No users with this username"})
+        finally:
+            return jsonify({'error': "Username already taken"}), 400
