@@ -233,3 +233,13 @@ def edit_user(id):
         return jsonify(utente_schema.dump(user))
     
     return jsonify({"error": "Must provide complete data"}), 400
+
+
+@utente.route('/user/check/<username>/')
+def check_username(username):
+    try:
+        user = db.session.execute(db.select(Utente).filter_by(id=id)).scalar_one()
+    except NoResultFound:
+        return jsonify({'message': "No users with this username"})
+    finally:
+        return jsonify({'message': "Username already taken"})
