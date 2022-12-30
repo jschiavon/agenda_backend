@@ -147,7 +147,7 @@ def add_user():
             Telefono = telefono,
             Email = email,
             Locale = locale,
-            Note = data['Note'] if 'Note' in data.keys else None
+            Note = data['Note'] if 'Note' in data.keys() else None
         )
         
         db.session.add(user)
@@ -225,7 +225,7 @@ def edit_user(id):
         except KeyError:
             return jsonify({'error': 'Must provide Locale'}), 400
 
-        user.Note = data['Note'] if 'Note' in data.keys else None
+        user.Note = data['Note'] if 'Note' in data.keys() else None
         
         db.session.commit()
         
@@ -234,7 +234,7 @@ def edit_user(id):
     return jsonify({"error": "Must provide complete data"}), 400
 
 
-@utente.route('/user/check/', methods='POST')
+@utente.route('/user/check/', methods=['POST'])
 def check_username():
 
     if request.method == 'POST':
@@ -246,10 +246,12 @@ def check_username():
             username = data['username']
         except KeyError:
             return jsonify({'error': 'Must provide username'}), 400
+
+        print(username)
         
         try:
-            user = db.session.execute(db.select(Utente).filter_by(username=username)).scalar_one()
+            user = db.session.execute(db.select(Utente).filter_by(Username=username)).scalar_one()
+            print(user)
         except NoResultFound:
             return jsonify({'message': "No users with this username"})
-        finally:
-            return jsonify({'error': "Username already taken"}), 400
+        return jsonify({'error': "Username already taken"}), 400
