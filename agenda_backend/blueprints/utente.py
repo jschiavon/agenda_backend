@@ -88,52 +88,52 @@ def add_user():
         try:
             password = data['Password']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Password'}), 400
         
         try:
             nome = data['Nome_Operatore']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Nome_Operatore'}), 400
 
         try:
             nomeRistorante = data['Nome_Ristorante']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Nome_Ristorante'}), 400
 
         try:
             indirizzo = data['Indirizzo']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Indirizzo'}), 400
 
         try:
             cap = data['Cap']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Cap'}), 400
 
         try:
             localita = data['Localita']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Localita'}), 400
 
         try:
             provincia = data['Provincia']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Provincia'}), 400
 
         try:
             telefono = data['Telefono']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Telefono'}), 400
 
         try:
             email = data['Email']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Email'}), 400
 
         try:
             locale = data['Locale']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Locale'}), 400
 
         user = Utente(
             Username = username,
@@ -178,56 +178,55 @@ def edit_user(id):
         try:
             user.Password = data['Password']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Password'}), 400
         
         try:
             user.Nome_Operatore = data['Nome_Operatore']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Nome_Operatore'}), 400
 
         try:
             user.Nome_Ristorante = data['Nome_Ristorante']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Nome_Ristorante'}), 400
 
         try:
             user.Indirizzo = data['Indirizzo']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Indirizzo'}), 400
 
         try:
             user.Cap = data['Cap']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Cap'}), 400
 
         try:
             user.Localita = data['Localita']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Localita'}), 400
 
         try:
             user.Provincia = data['Provincia']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Provincia'}), 400
 
         try:
             user.Telefono = data['Telefono']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Telefono'}), 400
 
         try:
             user.Email = data['Email']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Email'}), 400
 
         try:
             user.Locale = data['Locale']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide Locale'}), 400
 
         user.Note = data['Note'] if 'Note' in data.keys else None
         
-        db.session.add(user)
         db.session.commit()
         
         return jsonify(utente_schema.dump(user))
@@ -242,4 +241,4 @@ def check_username(username):
     except NoResultFound:
         return jsonify({'message': "No users with this username"})
     finally:
-        return jsonify({'message': "Username already taken"})
+        return jsonify({'error': "Username already taken"}), 400
