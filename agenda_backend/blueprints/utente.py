@@ -247,11 +247,10 @@ def check_username():
         except KeyError:
             return jsonify({'error': 'Must provide username'}), 400
 
-        print(username)
-        
         try:
-            user = db.session.execute(db.select(Utente).filter_by(Username=username)).scalar_one()
-            print(user)
+            user = db.session.execute(db.select(Utente).filter_by(Username=username))..scalars().all()
         except NoResultFound:
             return jsonify({'message': "No users with this username"})
-        return jsonify({'error': "Username already taken"}), 400
+        finally:
+            return jsonify({'message': len(rooms)})
+            
