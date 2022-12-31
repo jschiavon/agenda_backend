@@ -137,7 +137,7 @@ def add_user():
 
         user = Utente(
             Username = username,
-            Password = password,
+            Password = generate_password_hash(password, 12).decode('latin'),
             Nome_Operatore = nome,
             Nome_Ristorante = nomeRistorante,
             Indirizzo = indirizzo,
@@ -170,15 +170,15 @@ def edit_user(id):
         if not data:
             return jsonify({"error": "Must provide complete data"}), 400
         
-        try:
-            user.Username = data['Username']
-        except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+        # try:
+        #     user.Username = data['Username']
+        # except KeyError:
+        #     return jsonify({'error': 'Must provide Username'}), 400
 
-        try:
-            user.Password = data['Password']
-        except KeyError:
-            return jsonify({'error': 'Must provide Password'}), 400
+        # try:
+        #     user.Password = generate_password_hash(data['Password'], 12).decode('latin')
+        # except KeyError:
+        #     return jsonify({'error': 'Must provide Password'}), 400
         
         try:
             user.Nome_Operatore = data['Nome_Operatore']
