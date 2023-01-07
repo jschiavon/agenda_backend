@@ -50,29 +50,6 @@ def login():
         return jsonify({"error": "Password incorrect"}), 401
 
 
-@utente.route('/user/password/<id>', methods=['POST'])
-def change_password(id):
-    data = request.get_json(force=True)
-    if not data:
-        return jsonify({'error': 'Must provide the new passowrd'}), 400
-    
-    try:
-        new_password = data['Password']
-    except KeyError:
-        return jsonify({'error': 'Must provide the new passowrd'}), 400
-
-    try:
-        user = db.session.execute(db.select(Utente).filter_by(id=id)).scalar_one()
-    except NoResultFound:
-        return jsonify({'error': "No user corresponding to this id"}), 401
-    
-    user.Password = generate_password_hash(new_password, 12).decode('latin')
-
-    db.session.commit()
-
-    return jsonify(utente_schema.dump(user))
-
-
 @utente.route('/user/add/', methods=['POST'])
 def add_user():
     if request.method == 'POST':
@@ -170,15 +147,15 @@ def edit_user(id):
         if not data:
             return jsonify({"error": "Must provide complete data"}), 400
         
-        # try:
-        #     user.Username = data['Username']
-        # except KeyError:
-        #     return jsonify({'error': 'Must provide Username'}), 400
+        try:
+            user.Username = data['Username']
+        except KeyError:
+            return jsonify({'error': 'Must provide Username'}), 400
 
-        # try:
-        #     user.Password = generate_password_hash(data['Password'], 12).decode('latin')
-        # except KeyError:
-        #     return jsonify({'error': 'Must provide Password'}), 400
+        try:
+            user.Password = generate_password_hash(data['Password'], 12).decode('latin')
+        except KeyError:
+            return jsonify({'error': 'Must provide Password'}), 400
         
         try:
             user.Nome_Operatore = data['Nome_Operatore']
@@ -248,9 +225,9 @@ def check_username():
             return jsonify({'error': 'Must provide username'}), 400
 
         try:
-            user = db.session.execute(db.select(Utente).filter_by(Username=username))..scalars().all()
+            users = db.session.execute(db.select(Utente).filter_by(Username=username)).scalars().all()
         except NoResultFound:
             return jsonify({'message': "No users with this username"})
         finally:
-            return jsonify({'message': len(rooms)})
+            return jsonify({'message': len(users)})
             
