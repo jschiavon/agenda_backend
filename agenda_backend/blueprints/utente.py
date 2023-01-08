@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_bcrypt import check_password_hash, generate_password_hash
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import NoResultFound, MultipleResultsFound
 
 from agenda_backend.database import db
 from agenda_backend.models.utente import Utente, utente_schema
@@ -43,6 +43,8 @@ def login():
         user = db.session.execute(db.select(Utente).filter_by(Username=username)).scalar_one()
     except NoResultFound:
         return jsonify({'error': "No user with this username"}), 401
+    except MultipleResultsFound:
+        return jsonify({'error': "Multiple user with this username"}), 401
 
     if check_password_hash(user.Password, password):
         return jsonify(utente_schema.dump(user))
@@ -148,61 +150,62 @@ def edit_user(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            user.Username = data['Username']
+            mode = data['Mode']
         except KeyError:
-            return jsonify({'error': 'Must provide Username'}), 400
+            return jsonify({'error': 'Must provide mode'}), 400    
 
-        try:
-            user.Password = generate_password_hash(data['Password'], 12).decode('latin')
-        except KeyError:
-            return jsonify({'error': 'Must provide Password'}), 400
-        
-        try:
-            user.Nome_Operatore = data['Nome_Operatore']
-        except KeyError:
-            return jsonify({'error': 'Must provide Nome_Operatore'}), 400
-
-        try:
-            user.Nome_Ristorante = data['Nome_Ristorante']
-        except KeyError:
-            return jsonify({'error': 'Must provide Nome_Ristorante'}), 400
-
-        try:
-            user.Indirizzo = data['Indirizzo']
-        except KeyError:
-            return jsonify({'error': 'Must provide Indirizzo'}), 400
-
-        try:
-            user.Cap = data['Cap']
-        except KeyError:
-            return jsonify({'error': 'Must provide Cap'}), 400
-
-        try:
-            user.Localita = data['Localita']
-        except KeyError:
-            return jsonify({'error': 'Must provide Localita'}), 400
-
-        try:
-            user.Provincia = data['Provincia']
-        except KeyError:
-            return jsonify({'error': 'Must provide Provincia'}), 400
-
-        try:
-            user.Telefono = data['Telefono']
-        except KeyError:
-            return jsonify({'error': 'Must provide Telefono'}), 400
-
-        try:
-            user.Email = data['Email']
-        except KeyError:
-            return jsonify({'error': 'Must provide Email'}), 400
-
-        try:
-            user.Locale = data['Locale']
-        except KeyError:
-            return jsonify({'error': 'Must provide Locale'}), 400
-
-        user.Note = data['Note'] if 'Note' in data.keys() else None
+        if mode == 'Username':
+            try:
+                user.username = data['Username']
+            except KeyError:
+                return jsonify({'error': 'Must provide Username'}), 400
+        elif mode == 'Password':
+            try:
+                password = data['Password']
+            except KeyError:
+                return jsonify({'error': 'Must provide Password'}), 400
+            else:
+                user.Password = generate_password_hash(password, 12).decode('latin')
+        elif mode == 'Data':
+            try:
+                user.Nome_Operatore = data['Nome_Operatore']
+            except KeyError:
+                return jsonify({'error': 'Must provide Nome_Operatore'}), 400
+            try:
+                user.Nome_Ristorante = data['Nome_Ristorante']
+            except KeyError:
+                return jsonify({'error': 'Must provide Nome_Ristorante'}), 400
+            try:
+                user.Indirizzo = data['Indirizzo']
+            except KeyError:
+                return jsonify({'error': 'Must provide Indirizzo'}), 400
+            try:
+                user.Cap = data['Cap']
+            except KeyError:
+                return jsonify({'error': 'Must provide Cap'}), 400
+            try:
+                user.Localita = data['Localita']
+            except KeyError:
+                return jsonify({'error': 'Must provide Localita'}), 400
+            try:
+                user.Provincia = data['Provincia']
+            except KeyError:
+                return jsonify({'error': 'Must provide Provincia'}), 400
+            try:
+                user.Telefono = data['Telefono']
+            except KeyError:
+                return jsonify({'error': 'Must provide Telefono'}), 400
+            try:
+                user.Email = data['Email']
+            except KeyError:
+                return jsonify({'error': 'Must provide Email'}), 400
+            try:
+                user.Locale = data['Locale']
+            except KeyError:
+                return jsonify({'error': 'Must provide Locale'}), 400
+            user.Note = data['Note'] if 'Note' in data.keys() else None
+        else:
+            return jsonify({'error': 'Mode must be one of `Username`, `Password` or `Data`'}), 401
         
         db.session.commit()
         
