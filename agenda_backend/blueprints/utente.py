@@ -156,7 +156,7 @@ def edit_user(id):
 
         if mode == 'Username':
             try:
-                user.username = data['Username']
+                user.Username = data['Username']
             except KeyError:
                 return jsonify({'error': 'Must provide Username'}), 400
         elif mode == 'Password':
