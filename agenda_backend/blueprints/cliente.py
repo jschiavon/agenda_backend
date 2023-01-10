@@ -91,7 +91,6 @@ def edit_client(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            client.id_Ristorante = data['id_Ristorante']
             client.Nome = data['Nome']
             client.Cell = data['Cell']
             client.Email = data['Email'] if 'Email' in data.keys() else None,

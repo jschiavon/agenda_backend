@@ -99,7 +99,6 @@ def edit_reservation(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            reservation.id_Ristorante = data['id_Ristorante']
             reservation.DataOra = data['DataOra']
             reservation.Tavolo = data['Tavolo']
             reservation.Numero_Posti = data['Numero_Posti']

@@ -106,7 +106,6 @@ def edit_tavolo(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            table.id_Ristorante = data['id_Ristorante']
             table.valido_dal = data['valido_Dal']
             table.valido_al = data['valido_Al']
             table.Tavolo_Numero = data['Tavolo_Numero']

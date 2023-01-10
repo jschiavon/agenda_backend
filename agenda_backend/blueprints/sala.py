@@ -85,7 +85,6 @@ def edit_room(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            room.id_Ristorante = data['id_Ristorante']
             room.valido_dal = data['valido_Dal']
             room.valido_al = data['valido_Al']
             room.numero = data['numero']
