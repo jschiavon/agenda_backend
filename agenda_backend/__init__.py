@@ -7,6 +7,7 @@ from agenda_backend.blueprints.tavolo import tavolo
 from agenda_backend.blueprints.cliente import cliente
 from agenda_backend.blueprints.prenotazione import prenotazione
 from agenda_backend.blueprints.sala import sala
+from agenda_backend.blueprints.slot import slot
 
 
 def create_app(*args, **kwargs):
@@ -19,5 +20,6 @@ def create_app(*args, **kwargs):
     app.register_blueprint(cliente)
     app.register_blueprint(prenotazione)
     app.register_blueprint(sala)
+    app.register_blueprint(slot)
     db.init_app(app)
     return app
