@@ -49,9 +49,14 @@ def add_reservation():
             return jsonify({'error': 'Must provide id_Ristorante'}), 400
 
         try:
-            DataOra = data['DataOra']
+            Data = data['Data']
         except KeyError:
-            return jsonify({'error': 'Must provide DataOra'}), 400
+            return jsonify({'error': 'Must provide Data'}), 400
+
+        try:
+            Slots = data['Slots']
+        except KeyError:
+            return jsonify({'error': 'Must provide Slots'}), 400
 
         try:
             Tavolo = data['Tavolo']
@@ -70,7 +75,8 @@ def add_reservation():
 
         reservation = Prenotazione(
             id_Ristorante = ristoid,
-            DataOra = DataOra,
+            Data = Data,
+            Slots = Slots,
             Tavolo = Tavolo,
             Numero_Posti = Numero_Posti,
             id_Cliente = id_Cliente,
@@ -99,7 +105,8 @@ def edit_reservation(id):
             return jsonify({"error": "Must provide complete data"}), 400
         
         try:
-            reservation.DataOra = data['DataOra']
+            reservation.Data = data['Data']
+            reservation.Slots = data['Slots']
             reservation.Tavolo = data['Tavolo']
             reservation.Numero_Posti = data['Numero_Posti']
             reservation.id_Cliente = data['id_Cliente']
